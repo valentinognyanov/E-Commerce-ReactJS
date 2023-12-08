@@ -35,3 +35,12 @@ input {
     font-size: 16px;
     border-radius: 5px;
 }
+
+.submit-btn {
+    background-color: rgb(32, 66, 22);
+    color: white;
+    font-size: 22px;
+    border-radius: 10px 5px;
+    padding: 2px 15px 2px 15px;
+    cursor: pointer;
+}
