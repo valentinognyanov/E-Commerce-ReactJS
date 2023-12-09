@@ -1,6 +1,7 @@
 import { useGetProducts } from "../../hooks/useGetProducts";
 
 import { Product } from "./product";
+import "./styles.css";
 
 export const ShopView = () => {
     const { products } = useGetProducts();
