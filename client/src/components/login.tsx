@@ -30,7 +30,7 @@ export const Login = () => {
         } catch (error) {
             let errorMessage: string = "";
 
-            switch (error.response.data.type) {
+            switch (error?.response?.data?.type) {
                 case UserErrors.NO_USER_FOUND:
                     errorMessage = "User does not exist.";
                     break;
