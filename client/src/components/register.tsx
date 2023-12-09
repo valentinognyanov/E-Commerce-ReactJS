@@ -1,7 +1,7 @@
 import { SyntheticEvent, useState } from "react";
 import axios from "axios";
 
-import { UserErrors } from "../errors";
+import { UserErrors } from "../models/errors";
 
 export const Register = () => {
     const [username, setUsername] = useState<string>("");

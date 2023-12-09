@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 
-import { UserErrors } from "../errors";
+import { UserErrors } from "../models/errors";
 
 export const Login = () => {
     const [username, setUsername] = useState<string>("");
