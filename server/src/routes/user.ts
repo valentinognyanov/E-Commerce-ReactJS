@@ -55,7 +55,6 @@ export const verifyToken = (
     next: NextFunction
 ) => {
     const authHeader = req.headers.authorization;
-
     if (authHeader) {
         jwt.verify(authHeader, "secret", (err) => {
             if (err) {
@@ -64,7 +63,7 @@ export const verifyToken = (
             next();
         });
     } else {
-        return res.sendStatus(401);
+        res.sendStatus(401);
     }
 };
 export { router as userRouter };
