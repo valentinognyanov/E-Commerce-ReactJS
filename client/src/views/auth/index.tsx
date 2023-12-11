@@ -1,6 +1,6 @@
 import { Login } from "../../components/login";
 import { Register } from "../../components/register";
-import "./style.css";
+import "./styles.css";
 
 export const AuthView = () => {
     return (

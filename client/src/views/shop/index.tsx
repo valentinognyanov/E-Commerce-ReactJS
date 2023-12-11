@@ -9,7 +9,7 @@ export const ShopView = () => {
         <div className="shop">
             <div className="products">
                 {products.map((product) => (
-                    <div>
+                    <div className="products-cards-body">
                         <Product product={product} />
                     </div>
                 ))}
