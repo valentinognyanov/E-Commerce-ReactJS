@@ -37,6 +37,7 @@
     transform-origin: center;
     transition: all 0.4s ease-in-out;
     overflow: hidden;
+    padding: 20px;
 }
 
 .product-body h3 {
@@ -75,6 +76,7 @@ figure {
     padding-inline: 24px;
     grid-template-columns: repeat(auto-fill, minmax(320px, 2fr));
     gap: 48px;
+    margin: 50px;
 }
 
 @media screen and (max-width: 960px) {
