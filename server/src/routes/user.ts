@@ -49,21 +49,46 @@ router.post("/login", async (req: Request, res: Response) => {
     }
 });
 
-export const verifyToken = (
+export const verifyToken = async (
     req: Request,
     res: Response,
     next: NextFunction
 ) => {
     const authHeader = req.headers.authorization;
-    if (authHeader) {
-        jwt.verify(authHeader, "secret", (err) => {
-            if (err) {
-                return res.sendStatus(403);
-            }
-            next();
-        });
-    } else {
-        res.sendStatus(401);
+    console.log("Authorization Header:", authHeader);
+
+    if (!authHeader) {
+        return res.sendStatus(401);
+    }
+
+    const token = authHeader?.split(" ")[1];
+
+    try {
+        await jwt.verify(token, "secret");
+        next();
+    } catch (error) {
+        console.error("Token verification error:", error);
+        return res.status(403).json({ error: "Forbidden" });
     }
 };
+
+router.get(
+    "/avaliable-money/:userID",
+    verifyToken,
+    async (req: Request, res: Response) => {
+        const { userId } = req.params;
+
+        try {
+            const user = await UserModel.findById(userId);
+            if (!user) {
+                res.status(400).json({ type: UserErrors.NO_USER_FOUND });
+            }
+
+            res.json({ avaliableMoney: user.avaliableMoney });
+        } catch (error) {
+            res.status(500).json({ error });
+        }
+    }
+);
+
 export { router as userRouter };
