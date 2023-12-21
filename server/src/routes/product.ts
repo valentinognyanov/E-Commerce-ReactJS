@@ -18,10 +18,10 @@ router.get("/", async (req: Request, res: Response) => {
 });
 
 router.post("/checkout", verifyToken, async (req: Request, res: Response) => {
-    const { customerId, cartItems } = req.body;
+    const { customerID, cartItems } = req.body;
 
     try {
-        const user = await UserModel.findById(customerId);
+        const user = await UserModel.findById(customerID);
         const productIds = Object.keys(cartItems);
         const products = await ProductModel.find({ _id: { $in: productIds } });
 
