@@ -60,8 +60,7 @@ export const verifyToken = async (
     if (!authHeader) {
         return res.sendStatus(401);
     }
-
-    const token = authHeader?.split(" ")[1];
+    const token = authHeader;
 
     try {
         await jwt.verify(token, "secret");
@@ -76,10 +75,10 @@ router.get(
     "/avaliable-money/:userID",
     verifyToken,
     async (req: Request, res: Response) => {
-        const { userId } = req.params;
-
+        const { userID } = req.params;
+        debugger;
         try {
-            const user = await UserModel.findById(userId);
+            const user = await UserModel.findById(userID);
             if (!user) {
                 res.status(400).json({ type: UserErrors.NO_USER_FOUND });
             }

@@ -8,7 +8,7 @@ import { ProductErrors, UserErrors } from "../errors";
 
 const router = Router();
 
-router.get("/", async (req: Request, res: Response) => {
+router.get("/", verifyToken, async (req: Request, res: Response) => {
     try {
         const products = await ProductModel.find({});
         res.json({ products });
