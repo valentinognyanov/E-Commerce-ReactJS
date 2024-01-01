@@ -14,6 +14,7 @@ export interface IShopContext {
     getTotalCartAmount: () => number;
     checkout: () => void;
     avaliableMoney: number;
+    purchasedItems: IProduct[];
 }
 
 const defaultValue: IShopContext = {
@@ -24,6 +25,7 @@ const defaultValue: IShopContext = {
     getTotalCartAmount: () => 0,
     checkout: () => null,
     avaliableMoney: 0,
+    purchasedItems: [],
 };
 
 export const ShopContext = createContext<IShopContext>(defaultValue);
@@ -31,6 +33,7 @@ export const ShopContext = createContext<IShopContext>(defaultValue);
 export const ShopContextProvider = (props) => {
     const [cartItems, setCartItems] = useState<{ string: number } | {}>({});
     const [avaliableMoney, setAvaliableMoney] = useState<number>(0);
+    const [purchasedItems, setPurchasedItems] = useState<IProduct[]>([]);
 
     const { products } = useGetProducts();
     const { headers } = useGetToken();
@@ -45,6 +48,20 @@ export const ShopContextProvider = (props) => {
                 { headers }
             );
             setAvaliableMoney(res.data.avaliableMoney);
+        } catch (error) {
+            alert("ERROR: Something went wrong.");
+        }
+    };
+
+    const fetchPurchasedItems = async () => {
+        try {
+            const res = await axios.get(
+                `http://localhost:3001/products/purchased-items/${localStorage.getItem(
+                    "userID"
+                )}`,
+                { headers }
+            );
+            setPurchasedItems(res.data.purchasedItems);
         } catch (error) {
             alert("ERROR: Something went wrong.");
         }
@@ -96,6 +113,9 @@ export const ShopContextProvider = (props) => {
             await axios.post("http://localhost:3001/products/checkout", body, {
                 headers,
             });
+            setCartItems({});
+            fetchAvaliableMoney();
+            fetchPurchasedItems();
             navigate("/");
         } catch (error) {
             console.log(error);
@@ -104,6 +124,7 @@ export const ShopContextProvider = (props) => {
 
     useEffect(() => {
         fetchAvaliableMoney();
+        fetchPurchasedItems();
     }, []);
 
     const contextValue: IShopContext = {
@@ -114,6 +135,7 @@ export const ShopContextProvider = (props) => {
         getTotalCartAmount,
         checkout,
         avaliableMoney,
+        purchasedItems,
     };
     return (
         <ShopContext.Provider value={contextValue}>

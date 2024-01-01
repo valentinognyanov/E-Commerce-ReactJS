@@ -1,0 +1,103 @@
+.purchased-items-title {
+    margin: 40px;
+}
+
+.purchased-items-title h1 {
+    display: inline;
+    border: 1px solid #000;
+    border-radius: 15px;
+    padding: 10px;
+    font-size: 30px;
+    color: #fff;
+    background-color: rgb(32, 66, 22);
+}
+
+figure {
+    margin: 0;
+    padding: 0;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+}
+
+.product-price {
+    font-weight: bold;
+    font-size: 22px;
+}
+
+.item button {
+    background-color: #fff;
+    border: 2px solid rgb(19, 19, 19);
+    min-width: 100px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 15px;
+    font-size: 20px;
+    margin-bottom: 10px;
+    margin: 6px;
+}
+
+.item button:hover {
+    background-color: rgb(32, 66, 22);
+    color: white;
+    cursor: pointer;
+}
+
+@container card (min-width: 380px) {
+    /* .product-body {
+        padding-left: 0;
+    } */
+    figure {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
+    figure img {
+        width: 100%;
+        aspect-ratio: 1;
+        object-fit: cover;
+    }
+}
+
+.purchased-items {
+    display: grid;
+    max-width: 1430px;
+    margin-inline: auto;
+    padding-inline: 24px;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 2fr));
+    gap: 48px;
+    margin: 50px;
+}
+
+.item {
+    --img-scale: 1.001;
+    --title-color: black;
+    --link-icon-translate: -20px;
+    --link-icon-opacity: 0;
+    position: relative;
+    border-radius: 16px;
+    box-shadow: none;
+    background: #fff;
+    transform-origin: center;
+    transition: all 0.4s ease-in-out;
+    overflow: hidden;
+    padding: 20px;
+}
+
+.item:has(:hover, :focus) {
+    --img-scale: 1.1;
+    --title-color: #28666e;
+    --link-icon-translate: 0;
+    --link-icon-opacity: 1;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
+        rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+}
+
+.product-wrapper img {
+    height: 100%;
+    max-width: 100%;
+    transform-origin: center;
+    transform: scale(var(--img-scale));
+    transition: transform 0.4s ease-in-out;
+}
