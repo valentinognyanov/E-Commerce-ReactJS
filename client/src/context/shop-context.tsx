@@ -5,6 +5,7 @@ import axios from "axios";
 import { useGetProducts } from "../hooks/useGetProducts";
 import { IProduct } from "../models/interfaces";
 import { useGetToken } from "../hooks/useGetToken";
+import { useCookies } from "react-cookie";
 
 export interface IShopContext {
     addToCart: (itemId: string) => void;
@@ -15,6 +16,8 @@ export interface IShopContext {
     checkout: () => void;
     avaliableMoney: number;
     purchasedItems: IProduct[];
+    isAuthenticated: boolean;
+    setIsAuthenticated: (isAuthenticated: boolean) => void;
 }
 
 const defaultValue: IShopContext = {
@@ -26,14 +29,20 @@ const defaultValue: IShopContext = {
     checkout: () => null,
     avaliableMoney: 0,
     purchasedItems: [],
+    isAuthenticated: false,
+    setIsAuthenticated: () => null,
 };
 
 export const ShopContext = createContext<IShopContext>(defaultValue);
 
 export const ShopContextProvider = (props) => {
+    const [cookies, setCookies] = useCookies(["access_token"]);
     const [cartItems, setCartItems] = useState<{ string: number } | {}>({});
     const [avaliableMoney, setAvaliableMoney] = useState<number>(0);
     const [purchasedItems, setPurchasedItems] = useState<IProduct[]>([]);
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(
+        cookies.access_token !== null
+    );
 
     const { products } = useGetProducts();
     const { headers } = useGetToken();
@@ -123,9 +132,18 @@ export const ShopContextProvider = (props) => {
     };
 
     useEffect(() => {
-        fetchAvaliableMoney();
-        fetchPurchasedItems();
-    }, []);
+        if (isAuthenticated) {
+            fetchAvaliableMoney();
+            fetchPurchasedItems();
+        }
+    }, [isAuthenticated]);
+
+    useEffect(() => {
+        if (!isAuthenticated) {
+            localStorage.clear();
+            setCookies("access_token", null);
+        }
+    }, [isAuthenticated]);
 
     const contextValue: IShopContext = {
         addToCart,
@@ -136,6 +154,8 @@ export const ShopContextProvider = (props) => {
         checkout,
         avaliableMoney,
         purchasedItems,
+        isAuthenticated,
+        setIsAuthenticated,
     };
     return (
         <ShopContext.Provider value={contextValue}>
