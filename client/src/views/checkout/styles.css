@@ -107,21 +107,7 @@ figure {
     margin: 50px;
 }
 
-@media screen and (max-width: 960px) {
-    .products-cards-body {
-        container: card/inline-size;
-    }
-    .product-body p {
-        display: none;
-    }
-}
-
 @container card (min-width: 380px) {
-    /* .products-cards-body {
-        display: grid;
-        grid-template-columns: 100px 1fr;
-        gap: 16px;
-    } */
     .product-body {
         padding-left: 0;
     }
